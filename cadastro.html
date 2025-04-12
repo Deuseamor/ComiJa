@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ComiJá - Cadastro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    .logo {
+      color: #FF6B00;
+      font-size: 24px;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+    button {
+      width: 100%;
+      background: #FF6B00;
+      color: white;
+      border: none;
+      padding: 15px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    #loading {
+      display: none;
+      text-align: center;
+      margin-top: 10px;
+      color: #FF6B00;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">ComiJá</div>
+    
+    <input type="text" id="cadastroNome" placeholder="Nome" required>
+    <input type="text" id="cadastroSobrenome" placeholder="Sobrenome" required>
+    <input type="email" id="cadastroEmail" placeholder="E-mail" required>
+    <input type="password" id="cadastroSenha" placeholder="Senha" required>
+    
+    <button onclick="criarConta()">Cadastrar</button>
+    <div id="loading">Carregando...</div>
+  </div>
+
+  <!-- Firebase 9 (versão modular) -->
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js';
+    import { getAuth, createUserWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js';
+    import { getFirestore, doc, setDoc } from 'https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC-8w-h628k19k2QwPOomuzu7mLK8kMx1g",
+      authDomain: "helpcomeja-1d65f.firebaseapp.com",
+      projectId: "helpcomeja-1d65f",
+      storageBucket: "helpcomeja-1d65f.appspot.com",
+      messagingSenderId: "414601562481",
+      appId: "1:414601562481:web:c8652a27bbd3069a7c4ed0"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    async function criarConta() {
+      const nome = document.getElementById("cadastroNome").value;
+      const sobrenome = document.getElementById("cadastroSobrenome").value;
+      const email = document.getElementById("cadastroEmail").value;
+      const senha = document.getElementById("cadastroSenha").value;
+
+      // Validação simples
+      if (!nome || !email || !senha) {
+        alert("Preencha todos os campos!");
+        return;
+      }
+
+      const btn = document.querySelector("button");
+      const loading = document.getElementById("loading");
+      
+      try {
+        btn.disabled = true;
+        loading.style.display = "block";
+
+        // 1. Cria usuário
+        const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
+        
+        // 2. Salva dados extras
+        await setDoc(doc(db, "usuarios", userCredential.user.uid), {
+          nome: nome,
+          sobrenome: sobrenome,
+          email: email
+        });
+        
+        // 3. Redireciona
+        window.location.href = "home.html";
+      } catch (error) {
+        alert("Erro: " + error.message);
+      } finally {
+        btn.disabled = false;
+        loading.style.display = "none";
+      }
+    }
+  </script>
+</body>
+</html>
