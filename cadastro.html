@@ -48,7 +48,7 @@
   
   <button class="btn-laranja" onclick="criarConta()">Cadastrar</button>
 
-  <!-- Firebase 9 (versão modular para mobile) -->
+  <!-- Firebase 9 (versão definitiva) -->
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js';
     import { getAuth, createUserWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js';
@@ -63,4 +63,33 @@
       appId: "1:414601562481:web:c8652a27bbd3069a7c4ed0"
     };
 
-    const app = initializeApp(fire
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    async function criarConta() {
+      const nome = document.getElementById("cadastroNome").value;
+      const sobrenome = document.getElementById("cadastroSobrenome").value;
+      const email = document.getElementById("cadastroEmail").value;
+      const senha = document.getElementById("cadastroSenha").value;
+
+      try {
+        // 1. Cria usuário
+        const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
+        
+        // 2. Salva dados no Firestore
+        await setDoc(doc(db, "usuarios", userCredential.user.uid), {
+          nome: nome,
+          sobrenome: sobrenome,
+          email: email
+        });
+        
+        // 3. Redireciona
+        window.location.href = "home.html";
+      } catch (error) {
+        alert("Erro no cadastro: " + error.message);
+      }
+    }
+  </script>
+</body>
+</html>
