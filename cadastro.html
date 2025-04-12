@@ -45,5 +45,15 @@
         .catch(error => alert("Erro: " + error.message));
     }
   </script>
-</body>
+<script>
+     // Teste manual do Firebase (cole no console do navegador)
+     function testarFirebase() {
+       const email = "teste@exemplo.com";
+       const senha = "123456";
+
+       firebase.auth().createUserWithEmailAndPassword(email, senha)
+         .then(() => alert("Firebase CONECTADO!"))
+         .catch((error) => alert("ERRO: " + error.message));
+     }
+   </script></body>
 </html>
