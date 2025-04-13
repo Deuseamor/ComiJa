@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ComiJá - Teste Login/Cadastro</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #F7F7F7;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            padding: 30px;
+            text-align: center;
+        }
+        .logo {
+            color: #D61A2A;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .btn {
+            background: #D61A2A;
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .links {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+        .links a {
+            color: #D61A2A;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        #signupForm {
+            display: none; /* Começa escondido */
+        }
+    </style>
+</head>
+<body>
+    <!-- TELA DE LOGIN (padrão) -->
+    <div class="container" id="loginForm">
+        <div class="logo">ComiJá</div>
+        <input type="text" placeholder="E-mail ou telefone" id="loginEmail">
+        <input type="password" placeholder="Digite sua senha" id="loginPassword">
+        <button class="btn" onclick="alert('Login simuladol')">Entrar</button>
+        <div class="links">
+            <a href="#" id="forgotPassword">Esqueci minha senha</a> · 
+            <a href="#" id="showSignup">Cadastre-se</a>
+        </div>
+    </div>
+
+    <!-- TELA DE CADASTRO (escondida) -->
+    <div class="container" id="signupForm">
+        <div class="logo">ComiJá</div>
+        <input type="text" placeholder="Nome completo" id="signupName">
+        <input type="email" placeholder="E-mail" id="signupEmail">
+        <input type="tel" placeholder="Telefone (com DDD)" id="signupPhone">
+        <input type="password" placeholder="Senha (mínimo 6 caracteres)" id="signupPassword" minlength="6">
+        <input type="password" placeholder="Confirme sua senha" id="signupConfirmPassword">
+        <button class="btn" onclick="alert('Cadastro simulado!')">Criar conta</button>
+        <div class="links">
+            Já tem uma conta? <a href="#" id="showLogin">Faça login</a>
+        </div>
+    </div>
+
+    <script>
+        // Alternar entre Login e Cadastro
+        document.getElementById("showSignup").addEventListener("click", function(e) {
+            e.preventDefault();
+            document.getElementById("loginForm").style.display = "none";
+            document.getElementById("signupForm").style.display = "block";
+        });
+
+        document.getElementById("showLogin").addEventListener("click", function(e) {
+            e.preventDefault();
+            document.getElementById("signupForm").style.display = "none";
+            document.getElementById("loginForm").style.display = "block";
+        });
+
+        // Máscara para Telefone (opcional)
+        document.getElementById("signupPhone").addEventListener("input", function(e) {
+            e.target.value = e.target.value.replace(/\D/g, '')
+                .replace(/(\d{2})(\d)/, '($1) $2')
+                .replace(/(\d{5})(\d)/, '$1-$2');
+        });
+    </script>
+</body>
+</html>
