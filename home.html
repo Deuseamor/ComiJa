@@ -1,0 +1,91 @@
+<!DOCTYPE html><html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ComiJá - Login</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }.container {
+  text-align: center;
+  max-width: 300px;
+  width: 100%;
+}
+
+.logo {
+  font-size: 36px;
+  font-weight: bold;
+  color: #e32222;
+  margin-bottom: 30px;
+}
+
+.google-btn {
+  background-color: #4285F4;
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+}
+
+#nameInput {
+  margin-top: 20px;
+  display: none;
+}
+
+#nameInput input {
+  padding: 10px;
+  width: 100%;
+  font-size: 16px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#nameInput button {
+  background-color: #e32222;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  width: 100%;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">ComiJá</div>
+    <button class="google-btn" onclick="simulateGoogleLogin()">Entrar com Google</button><div id="nameInput">
+  <input type="text" id="userName" placeholder="Digite seu nome" />
+  <button onclick="goToHome()">Entrar</button>
+</div>
+
+  </div>  <script>
+    function simulateGoogleLogin() {
+      document.querySelector('.google-btn').style.display = 'none';
+      document.getElementById('nameInput').style.display = 'block';
+    }
+
+    function goToHome() {
+      const name = document.getElementById('userName').value;
+      if (name.trim()) {
+        // Simula redirecionamento para a Home com o nome
+        window.location.href = `home.html?name=${encodeURIComponent(name)}`;
+      } else {
+        alert('Por favor, digite seu nome.');
+      }
+    }
+  </script></body>
+</html>
